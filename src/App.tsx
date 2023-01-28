@@ -1,25 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import * as React from 'react';
+// import logo from './logo.svg';
+// import './App.css';
+import TopNavigator from './component/TopNavi';
+import { Routes, Route } from "react-router-dom";
+import * as page from "./page";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <TopNavigator />
+      <Routes>
+        <Route path="/" element={<page.Calculator />} />
+        <Route path="/Calculator" element={<page.Calculator />} />
+        <Route path="/ShippingPrice" element={<page.ShippingPrice />} />
+        <Route path="*" element={<page.NotFound />} />
+    </Routes>
+    </>
   );
 }
 

@@ -1,0 +1,9 @@
+{
+    "common": {
+        "calculator": "Calculator",
+        "shipping_price": "Shipping Price"
+    },
+    "calculator": {"search_label":"Please input url"},
+    "shipping_price": {},
+    "not_found": {}
+}

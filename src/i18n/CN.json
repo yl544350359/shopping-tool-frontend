@@ -1,0 +1,9 @@
+{
+    "common": {
+        "calculator": "价格计算器",
+        "shipping_price": "邮费表"
+    },
+    "calculator": {"search_label":"请输入煤炉网址"},
+    "shipping_price": {},
+    "not_found": {}
+}
