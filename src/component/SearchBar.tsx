@@ -20,7 +20,7 @@ export default function SearchBar({item, setItem, setErrmsg, setLoading}:Props) 
     const handleSearch=(itemUrl:string) => {
       setErrmsg("");
       setLoading(true);
-      fetch("http://localhost:8001/itemDetail", {
+      fetch("http://agonize.asuscomm.com:3000/itemDetail", {
         method: 'POST',
         body: JSON.stringify({
           item_url: itemUrl
@@ -28,18 +28,27 @@ export default function SearchBar({item, setItem, setErrmsg, setLoading}:Props) 
         headers: {
           'Content-type': 'application/json; charset=UTF-8'
         }
-      }).then((response)=> response.json())
+      }).then((response)=> {
+        if (!response.ok) {
+          throw Error(`${response.status} ${response.statusText}`)
+        }
+        return response.json();
+      })
       .then((data) => {
         console.log(data);
         setLoading(false);
         setItem(data);
       })
-      .catch((err) => setErrmsg(err.message))
+      .catch((err) =>{
+        console.log(err);
+        setLoading(false);
+        setErrmsg(err.message);
+      })
     }
     return (
         <Paper
         component="form"
-        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
+        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%', maxWidth: 400 }}
         >
       <InputBase
         sx={{ ml: 1, flex: 1 }}
