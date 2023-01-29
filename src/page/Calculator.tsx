@@ -66,8 +66,8 @@ export default function Calculator() {
                         justifyContent:"center"
                     }}
                     margin={1}>
-                        {item.shipping_fee_tag? <Chip icon={<CheckIcon />} color="success" label={t("calculator.include_fee_label")} />:<Chip icon={<ClearIcon />} color="error" label={t("calculator.exclude_fee_lable")} />}
-                        {item.sold_out_flag? <Chip icon={<ClearIcon />} color="error" label={t("calcualtor.soldout_lable")} />:<Chip icon={<CheckIcon />} color="success" label={t("calculator.buyable_label")} />}
+                        {item.shipping_fee_tag? <Chip icon={<CheckIcon />} color="success" label={t("calculator.include_fee_label")} />:<Chip icon={<ClearIcon />} color="error" label={t("calculator.exclude_fee_label")} />}
+                        {item.sold_out_flag? <Chip icon={<ClearIcon />} color="error" label={t("calculator.soldout_label")} />:<Chip icon={<CheckIcon />} color="success" label={t("calculator.buyable_label")} />}
                     </Box>
                     <Divider />
                     <Typography>

@@ -6,9 +6,9 @@
     "calculator": {
         "search_label": "Please input url",
         "buyable_label": "In stock",
-        "soldout_lable": "Sold out",
+        "soldout_label": "Sold out",
         "include_fee_label": "Free shipping",
-        "exclude_fee_lable": "No free shipping",
+        "exclude_fee_label": "No free shipping",
         "cny_price": "CNY ¥",
         "jpy_price": "JPY ¥"
     },
