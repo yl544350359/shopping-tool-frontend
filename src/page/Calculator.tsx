@@ -8,7 +8,8 @@ import { AlertTitle,
     CardContent,
     CardMedia,
     Typography,
-    Chip
+    Chip,
+    Backdrop
  } from '@mui/material';
  import CheckIcon from '@mui/icons-material/Check';
  import Divider from '@mui/material/Divider';
@@ -74,11 +75,14 @@ export default function Calculator() {
                     </Typography>
                 </CardContent>
             </Card>}
-            {loading && <CircularProgress />}
+            <Backdrop sx={{color:"#fff",zIndex: (theme) => theme.zIndex.drawer+1}} open={loading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
             {errmsg && <Alert
                 severity='error'
                 sx={{
-                    width: 400
+                    width: "100%",
+                    maxWidth: '376px'
                 }}>
                 <AlertTitle>Error</AlertTitle>
                 {errmsg}
