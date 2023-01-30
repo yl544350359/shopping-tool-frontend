@@ -1,46 +1,50 @@
-# Getting Started with Create React App
+# 日本购物工具箱(Shopping Tool)
+本仓库包含了网站[购物工具箱](agonize.asuscomm.com:8000)的前端代码.
+This Repo includes codes of the frontend of [Shopping-tool](agonize.asuscomm.com:8000).
+## v1.0.1 功能概要 Brief Introduction
+1. 价格计算器目前仅支持Mercari网站,后续将持续增加其他网站. Price Calculator only supports Mercari currently. We will continue to add other websites in the future.
+2. 使用徽章来显示当前商品的售出状态及是否包邮,用户可以一目了然物品状态. In Price Calculator, we use badge to represent the status of item and if the price includes shipping fee. 
+3. 新增导航栏,可以自由切换价格计算器和国际邮费表(目前还在开发中). We added navigator bar, which can navigate users to Price Calcualtor page and Shipping Fee page (atill under development).
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
 
-In the project directory, you can run:
+***
+## 本地测试 Local test
+安装依赖项
+Install dependencies
+```
+npm install
+```
+快速启动,该命令将占用Port 3000
+Quick start, this command will use port 3000
+```
+npm start
+```
+打开浏览器, 输入网址`localhost:3000`即可访问.
+Open your browser, input `localhost:3000` and then you can access it.
 
-### `npm start`
+***
+## 容器化部署 Containernized Deployment
+打包docker image
+Build docker image
+```
+docker build -t <image name>:<tag> .
+```
+例如
+For example
+```
+docker build -t shopping-tool-frontend:v1.0.0 .
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+创建容器,此处的port指你想使用的本机端口.
+Build container, `<Port>` means the port that you want to use on you local machine.
+```
+docker run -d -p <Port>:80 <image name>:<tag>
+```
+例如
+For example
+```
+docker run -d -p 3001:80 shopping-tool-frontend:v1.0.0
+```
+打开浏览器, 输入网址`localhost:3001`即可访问.
+Open your browser, input `localhost:3001` and then you can access it.
