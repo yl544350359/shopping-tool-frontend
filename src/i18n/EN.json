@@ -1,6 +1,6 @@
 {
     "common": {
-        "calculator": "Calculator",
+        "calculator": "Price Calculator",
         "shipping_price": "Shipping Price"
     },
     "calculator": {
