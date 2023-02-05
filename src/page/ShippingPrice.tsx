@@ -1,12 +1,13 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
+import {Backdrop, CircularProgress, AlertTitle} from '@mui/material';
 import TableRow from '@mui/material/TableRow';
 
 interface Column {
@@ -81,9 +82,12 @@ function createData(weight: number, rate: number): Data {
 
 export default function ShippingPrice() {
     const [rows, setRows] = React.useState<Data[]>([]);
-    // const [rate, setRate]=React.useState<number>();
+    const [errmsg, setErrmsg] = React.useState<string>("")
+    const [loading, setLoading] = React.useState<boolean>(false)
     var rate: number;
     React.useEffect(() => {
+        setErrmsg("");
+        setLoading(true);
         fetch("http://agonize.asuscomm.com:3000/getRate", {
             method: 'GET'
         }).then((response) => {
@@ -108,9 +112,12 @@ export default function ShippingPrice() {
                 };
                 console.log(tmp);
                 setRows(tmp);
+                setLoading(false);
             })
             .catch((err) => {
                 console.log(err);
+                setLoading(false);
+                setErrmsg(err.message);
             })
     }, [])
     return (
@@ -120,7 +127,16 @@ export default function ShippingPrice() {
             mt: 1,
             alignItems: "center"
         }}>
-            <Paper sx={{
+            {errmsg && <Alert
+                severity='error'
+                sx={{
+                    width: "100%",
+                    maxWidth: '376px'
+                }}>
+                <AlertTitle>Error</AlertTitle>
+                {errmsg}
+            </Alert>}
+            {!errmsg && !loading && <Paper sx={{
                 width: '100%',
                 maxWidth: 1000,
                 height: '100%'
@@ -174,7 +190,10 @@ export default function ShippingPrice() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-            </Paper>
+            </Paper>}
+            <Backdrop sx={{color:"#fff",zIndex: (theme) => theme.zIndex.drawer+1}} open={loading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </Box>
     );
 }
