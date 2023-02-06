@@ -10,6 +10,12 @@
                     "exclude_fee_label":"不包邮",
                     "cny_price":"代购价格 ¥",
                     "jpy_price":"日元标价 JPY¥"},
-    "shipping_price": {},
+    "shipping_price": {
+        "weight":"重量(g)",
+        "ems":"EMS(3天)",
+        "air":"航空便(7天)",
+        "epacket":"E邮包(7天)",
+        "boat":"船运(2个月)"
+    },
     "not_found": {}
 }
