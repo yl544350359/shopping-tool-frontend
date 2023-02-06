@@ -9,6 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import {Backdrop, CircularProgress, AlertTitle} from '@mui/material';
 import TableRow from '@mui/material/TableRow';
+import { useTranslation } from "react-i18next";
 
 interface Column {
     id: 'weight' | 'ems' | 'air' | 'epacket' | 'boat';
@@ -16,29 +17,6 @@ interface Column {
     minWidth?: number;
     align?: 'right';
 }
-
-const columns: Column[] = [
-    { id: 'weight', label: '重量(g)', minWidth: 80 },
-    { id: 'ems', label: 'EMS', minWidth: 80, align: 'right' },
-    {
-        id: 'air',
-        label: '航空便',
-        minWidth: 80,
-        align: 'right',
-    },
-    {
-        id: 'epacket',
-        label: 'E邮宝',
-        minWidth: 80,
-        align: 'right',
-    },
-    {
-        id: 'boat',
-        label: '船运',
-        minWidth: 80,
-        align: 'right',
-    },
-];
 
 interface Data {
     weight: number;
@@ -82,9 +60,32 @@ function createData(weight: number, rate: number): Data {
 
 export default function ShippingPrice() {
     const [rows, setRows] = React.useState<Data[]>([]);
-    const [errmsg, setErrmsg] = React.useState<string>("")
-    const [loading, setLoading] = React.useState<boolean>(false)
+    const [errmsg, setErrmsg] = React.useState<string>("");
+    const [loading, setLoading] = React.useState<boolean>(false);
+    const { t } = useTranslation();
     var rate: number;
+    const columns: Column[] = [
+        { id: 'weight', label: t("shipping_price.weight"), minWidth: 80 },
+        { id: 'ems', label: t("shipping_price.ems"), minWidth: 80, align: 'right' },
+        {
+            id: 'air',
+            label: t("shipping_price.air"),
+            minWidth: 80,
+            align: 'right',
+        },
+        {
+            id: 'epacket',
+            label: t("shipping_price.epacket"),
+            minWidth: 80,
+            align: 'right',
+        },
+        {
+            id: 'boat',
+            label: t("shipping_price.boat"),
+            minWidth: 80,
+            align: 'right',
+        },
+    ];
     React.useEffect(() => {
         setErrmsg("");
         setLoading(true);

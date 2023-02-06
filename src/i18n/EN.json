@@ -12,6 +12,12 @@
         "cny_price": "CNY ¥",
         "jpy_price": "JPY ¥"
     },
-    "shipping_price": {},
+    "shipping_price": {
+        "weight":"Weight(g)",
+        "ems":"EMS",
+        "air":"Air",
+        "epacket":"E-packet",
+        "boat":"Surface"
+    },
     "not_found": {}
 }
