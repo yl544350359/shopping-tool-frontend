@@ -2,21 +2,28 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import SearchBar from '../component/SearchBar';
-import { AlertTitle, 
-    CircularProgress, 
-    Card, 
+import {
+    AlertTitle,
+    CircularProgress,
+    Card,
     CardContent,
     CardMedia,
     Typography,
     Chip,
     Backdrop
- } from '@mui/material';
- import CheckIcon from '@mui/icons-material/Check';
- import Divider from '@mui/material/Divider';
- import ClearIcon from '@mui/icons-material/Clear';
- import { useTranslation } from "react-i18next";
+} from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
+import Divider from '@mui/material/Divider';
+import ClearIcon from '@mui/icons-material/Clear';
+import { useTranslation } from "react-i18next";
+import Fab from '@mui/material/Fab';
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
+import cookie from 'react-cookies';
 
 export interface ItemDetail {
+    [k:string]:any;
+    item_url: string;
     price_jpy: number;
     price_cny: number;
     item_name: string;
@@ -26,11 +33,65 @@ export interface ItemDetail {
     discription: string
 }
 
+function isInCookie(cookieList:ItemDetail[]|undefined|null, keyName:string, targetKey:any): boolean {
+    var flag:boolean =false;
+    if(cookieList){  
+        for (const item of cookieList){
+            if(item[keyName]===targetKey){
+                flag=true;
+                break;
+            }
+        }
+    }
+    return flag;
+
+}
 export default function Calculator() {
-    const [item, setItem] = React.useState<ItemDetail | null>(null)
-    const [errmsg, setErrmsg] = React.useState<string>("")
-    const [loading, setLoading] = React.useState<boolean>(false)
+    const [item, setItem] = React.useState<ItemDetail | null>(null);
+    const [errmsg, setErrmsg] = React.useState<string>("");
+    const [loading, setLoading] = React.useState<boolean>(false);
+    const [favorite, setFavorite] = React.useState<boolean>(false);
+    const [curCookie, setCurCookie]=React.useState<ItemDetail[]|null>(null);
     const { t } = useTranslation();
+
+    React.useEffect(()=>{
+        var tmpData:ItemDetail[];
+        tmpData=cookie.load("favorite",false);
+        if(tmpData){
+            setCurCookie(tmpData);
+            setFavorite(isInCookie(curCookie,'item_url',item?.item_url))
+        }
+        // setCurCookie(cookie.load("favorite",false));
+        // setFavorite(isInCookie(curCookie,'item_url',item?.item_url))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[item]);
+    
+    const addFavorite = (oldCookie:ItemDetail[]|undefined|null) => {
+        // var oldCookie: ItemDetail[]|undefined=cookie.load("favorite",false);
+        var newCookie:ItemDetail[]=[];
+        const expireDate=new Date(Date.now()+365*24*60*60*1000);
+        if (!oldCookie){
+            console.log("No cookie found.");
+            newCookie=[item!];
+        }
+        else if (!isInCookie(oldCookie,"item_url",item?.item_url)){
+            console.log("Item not in cookie.");
+            newCookie=[...oldCookie!];
+            newCookie.push(item!);
+        }
+        else {
+            console.log("Item already exists");
+            newCookie=[...oldCookie!];
+        }
+        console.log(newCookie);
+        cookie.save("favorite",JSON.stringify(newCookie),{path:"/",expires: expireDate});
+        setFavorite(true);
+    }
+
+    const removeFavorite = (oldCookie:ItemDetail[]|undefined|null) => {
+        setFavorite(false);
+    }
+
     return (
         <Box
             sx={{
@@ -43,39 +104,68 @@ export default function Calculator() {
                 gap: 1
             }}>
             <SearchBar item={item} setItem={setItem} setErrmsg={setErrmsg} setLoading={setLoading} />
-            {item  && !errmsg && !loading && <Card sx={{ maxWidth: 400}}>
+            {item && !errmsg && !loading && <Card sx={{ maxWidth: 400 }}>
                 <CardMedia
-                component='img'
-                alt='This is picture'
-                height="350"
-                image={item.img_url}
+                    component='img'
+                    alt='This is picture'
+                    height="350"
+                    image={item.img_url}
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5">
-                    {item.item_name}
+                        {item.item_name}
                     </Typography>
-                    <Typography sx={{color:'#1976d2'}} variant="h4">
+                    <Typography sx={{ color: '#1976d2' }} variant="h4">
                         {`${t("calculator.cny_price")}${item.price_cny}`}
                     </Typography>
-                    <Typography sx={{color:'#bdbdbd'}}>
+                    <Typography sx={{ color: '#bdbdbd' }}>
                         {`${t("calculator.jpy_price")}${item.price_jpy}`}
                     </Typography>
                     <Box sx={{
-                        display:"flex",
-                        gap:1,
-                        justifyContent:"center"
+                        display: "flex",
+                        gap: 1,
+                        justifyContent: "center"
                     }}
-                    margin={1}>
-                        {item.shipping_fee_tag? <Chip icon={<CheckIcon />} color="success" label={t("calculator.include_fee_label")} />:<Chip icon={<ClearIcon />} color="error" label={t("calculator.exclude_fee_label")} />}
-                        {item.sold_out_flag? <Chip icon={<ClearIcon />} color="error" label={t("calculator.soldout_label")} />:<Chip icon={<CheckIcon />} color="success" label={t("calculator.buyable_label")} />}
+                        margin={1}>
+                        {item.shipping_fee_tag ? <Chip icon={<CheckIcon />} color="success" label={t("calculator.include_fee_label")} /> : <Chip icon={<ClearIcon />} color="error" label={t("calculator.exclude_fee_label")} />}
+                        {item.sold_out_flag ? <Chip icon={<ClearIcon />} color="error" label={t("calculator.soldout_label")} /> : <Chip icon={<CheckIcon />} color="success" label={t("calculator.buyable_label")} />}
                     </Box>
                     <Divider />
                     <Typography>
-                    {item.discription}
+                        {item.discription}
                     </Typography>
+                    {favorite ? <Fab
+                        size="medium"
+                        color="secondary"
+                        aria-label="remove"
+                        onClick={()=>removeFavorite(curCookie)}
+                        sx={{
+                            zIndex: (theme) => theme.zIndex.drawer + 1,
+                            position: "fixed",
+                            bottom: "40px",
+                            right: `${window.innerWidth < 544 ? 24 : (window.innerWidth - 448)/2-48}px`
+                        }}
+                        >
+                        <BookmarkRemoveIcon />
+                    </Fab>:
+                    <Fab
+                        size="medium"
+                        color="secondary"
+                        aria-label="add"
+                        onClick={()=>addFavorite(curCookie)}
+                        sx={{
+                            zIndex: (theme) => theme.zIndex.drawer + 1,
+                            position: "fixed",
+                            bottom: "40px",
+                            right: `${window.innerWidth < 544 ? 24 : (window.innerWidth - 448)/2-48}px`
+                        }}
+                        >
+                        <BookmarkAddIcon />
+                    </Fab>}
+
                 </CardContent>
             </Card>}
-            <Backdrop sx={{color:"#fff",zIndex: (theme) => theme.zIndex.drawer+1}} open={loading}>
+            <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading}>
                 <CircularProgress color="inherit" />
             </Backdrop>
             {errmsg && <Alert
@@ -87,6 +177,7 @@ export default function Calculator() {
                 <AlertTitle>Error</AlertTitle>
                 {errmsg}
             </Alert>}
+
         </Box>
     )
 }
