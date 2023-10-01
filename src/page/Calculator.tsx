@@ -51,7 +51,7 @@ export default function Calculator() {
     const [errmsg, setErrmsg] = React.useState<string>("");
     const [loading, setLoading] = React.useState<boolean>(false);
     const [favorite, setFavorite] = React.useState<boolean>(false);
-    const [curCookie, setCurCookie]=React.useState<ItemDetail[]|null>(null);
+    const [curCookie, setCurCookie]=React.useState<ItemDetail[]>([]);
     const { t } = useTranslation();
 
     React.useEffect(()=>{
@@ -66,7 +66,7 @@ export default function Calculator() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[item]);
     
-    const addFavorite = (oldCookie:ItemDetail[]|undefined|null) => {
+    const addFavorite = (oldCookie:ItemDetail[]) => {
         // var oldCookie: ItemDetail[]|undefined=cookie.load("favorite",false);
         var newCookie:ItemDetail[]=[];
         const expireDate=new Date(Date.now()+365*24*60*60*1000);
@@ -85,10 +85,26 @@ export default function Calculator() {
         }
         console.log(newCookie);
         cookie.save("favorite",JSON.stringify(newCookie),{path:"/",expires: expireDate});
+        var tmpData:ItemDetail[];
+        tmpData=cookie.load("favorite",false);
+        console.log(tmpData);
         setFavorite(true);
     }
 
-    const removeFavorite = (oldCookie:ItemDetail[]|undefined|null) => {
+    const removeFavorite = (oldCookie:ItemDetail[]) => {
+        // var newCookie:ItemDetail[]=[];
+        const expireDate=new Date(Date.now()+365*24*60*60*1000);
+        const index = oldCookie?.findIndex(element => element.item_url===item?.item_url);
+        if (index!== -1) {
+            console.log("Find item in cookie.")
+            oldCookie.splice(index,1);
+        }
+        else {
+            console.log("Fail to find item in cookie.")
+            // newCookie=oldCookie;
+        }
+        console.log(oldCookie);
+        cookie.save("favorite",JSON.stringify(oldCookie),{path:"/",expires: expireDate});
         setFavorite(false);
     }
 
