@@ -1,7 +1,8 @@
 {
     "common": {
         "calculator": "Price Calculator",
-        "shipping_price": "Shipping Price"
+        "shipping_price": "Shipping Price",
+        "my_home": "My Home"
     },
     "calculator": {
         "search_label": "Please input url",
@@ -18,6 +19,9 @@
         "air":"Air",
         "epacket":"E-packet",
         "boat":"Surface"
+    },
+    "my_home": {
+        "username": "Unknown User"
     },
     "not_found": {}
 }
