@@ -23,9 +23,8 @@ export default function TopNavigator() {
   const navigate = useNavigate();
 
   const handleNavigate = (path:string,key:string) => {
-      // setTitle(t(key));
+      setTitle(t(key)!);
       navigate(path);
-      // setAnchorEl(null);
   }
   return (
     <Box sx={{ 
@@ -51,7 +50,7 @@ export default function TopNavigator() {
               {title}
             </Typography>
           </Box>
-          <HomeIcon sx={{color: 'white'}} />
+          <HomeIcon sx={{color: 'white', cursor: 'pointer'}} onClick={() => handleNavigate('/MyHome','common.my_home')}/>
         </Toolbar>
       </AppBar>
     </Box>
