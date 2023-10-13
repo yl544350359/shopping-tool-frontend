@@ -12,6 +12,7 @@ function App() {
         <Route path="/" element={<page.Calculator />} />
         <Route path="/Calculator" element={<page.Calculator />} />
         <Route path="/ShippingPrice" element={<page.ShippingPrice />} />
+        <Route path="/MyHome" element={<page.MyHome />} />
         <Route path="*" element={<page.NotFound />} />
     </Routes>
     </>
