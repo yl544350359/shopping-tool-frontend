@@ -21,7 +21,13 @@
         "boat":"Surface"
     },
     "my_home": {
-        "username": "Unknown User"
+        "username": "Unknown User",
+        "favorite": "My Favorite",
+        "picture": "Picture",
+        "title": "Title",
+        "price": "Price",
+        "select": "Select",
+        "selected": "Selected"
     },
     "not_found": {}
 }

@@ -19,7 +19,13 @@
         "boat":"船运(2个月)"
     },
     "my_home": {
-        "username": "神秘用户"
+        "username": "神秘用户",
+        "favorite": "收藏夹",
+        "picture": "图片",
+        "title": "商品标题",
+        "price": "价格 ¥",
+        "select": "选择",
+        "selected": "已选择"
     },
     "not_found": {}
 }
