@@ -7,7 +7,7 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import {Backdrop, CircularProgress, AlertTitle} from '@mui/material';
+import { Backdrop, CircularProgress, AlertTitle } from '@mui/material';
 import TableRow from '@mui/material/TableRow';
 import { useTranslation } from "react-i18next";
 
@@ -126,7 +126,8 @@ export default function ShippingPrice() {
             display: "flex",
             flexDirection: "column",
             mt: 1,
-            alignItems: "center"
+            alignItems: "center",
+            height: '100%'
         }}>
             {errmsg && <Alert
                 severity='error'
@@ -140,12 +141,15 @@ export default function ShippingPrice() {
             {!errmsg && !loading && <Paper sx={{
                 width: '100%',
                 maxWidth: 1000,
-                height: '100%'
+                id: 'price-paper',
+                
             }}>
                 <TableContainer sx={{
-                    height: "calc(100vh - 96px)"
+                    height: "calc(100vh - 96px)",
+                    id: 'price-table-container',
+                    
                 }}>
-                    <Table stickyHeader aria-label="sticky table">
+                    <Table stickyHeader aria-label="sticky table" id="price-table">
                         <TableHead>
                             <TableRow>
                                 {columns.map((column, index) => (
@@ -156,7 +160,8 @@ export default function ShippingPrice() {
                                             minWidth: column.minWidth,
                                             position: index === 0 ? "sticky" : undefined,
                                             left: index === 0 ? 0 : undefined,
-                                            zIndex: index === 0 ? 99 : 0
+                                            zIndex: index === 0 ? 99 : 0,
+                                            top: '-1px'
                                         }}
                                     >
                                         {column.label}
@@ -180,7 +185,7 @@ export default function ShippingPrice() {
                                                         left: column.id === "weight" ? 0 : undefined
                                                     }}
                                                     component={column.id === "weight" ? "th" : "td"}
-                                                    scope={column.id === "weight" ? "row": undefined}>
+                                                    scope={column.id === "weight" ? "row" : undefined}>
                                                     {value}
                                                 </TableCell>
                                             );
@@ -192,9 +197,11 @@ export default function ShippingPrice() {
                     </Table>
                 </TableContainer>
             </Paper>}
-            <Backdrop sx={{color:"#fff",zIndex: (theme) => theme.zIndex.drawer+1}} open={loading}>
-                <CircularProgress color="inherit" />
-            </Backdrop>
+            {
+                loading && <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading}>
+                    <CircularProgress color="inherit" />
+                </Backdrop>
+            }
         </Box>
     );
 }

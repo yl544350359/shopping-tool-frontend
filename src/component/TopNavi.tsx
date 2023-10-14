@@ -31,8 +31,8 @@ export default function TopNavigator() {
       flexGrow: 1,
       display: "flex",
       flexDirection: "row",
-      width: "100%",
-      height: "100%", }}>
+      width: "100%"
+    }}>
       <AppBar position="static">
         <Toolbar
           sx = {{

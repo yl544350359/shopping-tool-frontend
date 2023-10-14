@@ -4,9 +4,16 @@ import * as React from 'react';
 import TopNavigator from './component/TopNavi';
 import { Routes, Route } from "react-router-dom";
 import * as page from "./page";
+import { Box } from '@mui/material';
 function App() {
   return (
-    <>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+      height={'calc(100vh - 16px)'}
+    >
       <TopNavigator />
       <Routes>
         <Route path="/" element={<page.Calculator />} />
@@ -15,7 +22,7 @@ function App() {
         <Route path="/MyHome" element={<page.MyHome />} />
         <Route path="*" element={<page.NotFound />} />
     </Routes>
-    </>
+    </Box>
   );
 }
 
