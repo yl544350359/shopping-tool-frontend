@@ -11,77 +11,8 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FavoriteTable from '../component/favoriteTable';
-import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
-import DeleteIcon from '@mui/icons-material/Delete';
-import IconButton from '@mui/material/IconButton';
-import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import EnhancedTableToolbar from '../component/tableToolbar';
 import { ItemDetail } from './Calculator';
-import copy from 'copy-to-clipboard';
-interface EnhancedTableToolbarProps {
-  numSelected: number;
-  items: ItemDetail[];
-  selected: string[]
-}
-
-function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-  const { numSelected, items, selected } = props;
-  const handleCopyToCliboard = (event: React.MouseEvent<unknown>) => {
-    const selectedItems: ItemDetail[]= items.filter((obj)=>selected.includes(obj.item_url))
-    const filterProps: string[] = selectedItems.map(obj=>`url: ${obj.item_url}, price: ${obj.price_cny}`)
-    const resultString: string = filterProps.join('\n')
-    copy(resultString);
-    // alert("Copy succeed");
-  };
-
-  const handleDelete = (event: React.MouseEvent<unknown>) => {
-    
-  }
-  return (
-    <Toolbar
-      sx={{
-        justifyContent: "space-between",
-        width: "100%",
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        minHeight: { sm: 24 }
-        //   ...(numSelected > 0 && {
-        //     bgcolor: (theme) =>
-        //       alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-        //   }),
-      }}
-    >
-      {numSelected > 0 && (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      )}
-      {numSelected > 0 && (
-        <Box sx={{
-          display: "flex",
-          flexDirection: "row",
-        }}>
-          <Tooltip title="Copy info">
-            <IconButton size='small' onClick={handleCopyToCliboard}>
-              <ContentPasteIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Delete">
-            <IconButton size='small'>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        </Box>
-      )}
-    </Toolbar>
-  );
-}
-
 
 const staticData: ItemDetail[] = [{
   "item_url": "https://jp.mercari.com/item/m61443717755",
@@ -153,7 +84,8 @@ export default function MyHome() {
             flexDirection: "column",
             alignSelf: "center",
             alignItems: "center",
-            mt: "-44px"
+            mt: "-44px",
+            width: "100%"
           }}>
             <Avatar
               alt="avatar"
@@ -171,7 +103,7 @@ export default function MyHome() {
             >
               {t('my_home.username')}
             </Typography>
-            <Accordion expanded={fexpend} sx={{ maxWidth: '600px' }}>
+            <Accordion expanded={fexpend} sx={{ width: '100%' }}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon onClick={toggleAcordion}/>}
                 aria-controls="panel1a-content"
@@ -179,7 +111,7 @@ export default function MyHome() {
                 sx={{ cursor: 'unset !important' }}
               >
                 <Typography sx={{ display: "flex", minWidth: '60px', alignItems: "center" }}>{t("my_home.favorite")}</Typography>
-                <EnhancedTableToolbar numSelected={selected.length} items={items} selected={selected}/>
+                <EnhancedTableToolbar items={items} setItems={setItems} selected={selected} setSelected={setSelected}/>
               </AccordionSummary>
               <AccordionDetails sx={{ padding: 0 }}>
                 <FavoriteTable items={items} selected={selected} setSelected={setSelected} />

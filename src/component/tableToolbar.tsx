@@ -8,25 +8,30 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import { ItemDetail } from '../page/Calculator';
+import { useTranslation } from "react-i18next";
 
 interface EnhancedTableToolbarProps {
-    numSelected: number;
     items: ItemDetail[];
-    selected: string[]
+    setItems: (arg0: ItemDetail[]) => void;
+    selected: string[];
+    setSelected: (arg0: string[]) => void;
   }
   
-export default   function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-    const { numSelected, items, selected } = props;
+export default function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
+    const { t } = useTranslation();
+    const { items, setItems, selected, setSelected } = props;
     const handleCopyToCliboard = (event: React.MouseEvent<unknown>) => {
-      const selectedItems: ItemDetail[]= items.filter((obj)=>selected.includes(obj.item_url))
-      const filterProps: string[] = selectedItems.map(obj=>`url: ${obj.item_url}, price: ${obj.price_cny}`)
-      const resultString: string = filterProps.join('\n')
+      const selectedItems: ItemDetail[]= items.filter((obj)=>selected.includes(obj.item_url));
+      const filterProps: string[] = selectedItems.map(obj=>`url: ${obj.item_url}, price: ${obj.price_cny}`);
+      const resultString: string = filterProps.join('\n');
       copy(resultString);
       // alert("Copy succeed");
     };
   
     const handleDelete = (event: React.MouseEvent<unknown>) => {
-      
+      const safeItems: ItemDetail[]=items.filter((obj)=> !selected.includes(obj.item_url));
+      setSelected([]);
+      setItems(safeItems);
     }
     return (
       <Toolbar
@@ -42,17 +47,17 @@ export default   function EnhancedTableToolbar(props: EnhancedTableToolbarProps)
           //   }),
         }}
       >
-        {numSelected > 0 && (
+        {selected.length > 0 && (
           <Typography
             sx={{ flex: '1 1 100%' }}
             color="inherit"
             variant="subtitle1"
             component="div"
           >
-            {numSelected} selected
+            {selected.length + t('my_home.selected')}
           </Typography>
         )}
-        {numSelected > 0 && (
+        {selected.length > 0 && (
           <Box sx={{
             display: "flex",
             flexDirection: "row",
@@ -63,7 +68,7 @@ export default   function EnhancedTableToolbar(props: EnhancedTableToolbarProps)
               </IconButton>
             </Tooltip>
             <Tooltip title="Delete">
-              <IconButton size='small'>
+              <IconButton size='small' onClick={handleDelete}>
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
