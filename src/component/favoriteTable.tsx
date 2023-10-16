@@ -38,7 +38,7 @@ interface Column {
 
 export default function FavoriteTable({items, selected, setSelected}:Props) {
     const { t } = useTranslation();
-    const isSelected = (name: string) => selected.indexOf(name) !== -1;
+    const isSelected = (url: string) => selected.indexOf(url) !== -1;
     const headCells: readonly Column[] = [
         {
             id: 'check_box',
@@ -65,12 +65,12 @@ export default function FavoriteTable({items, selected, setSelected}:Props) {
             align: 'center'
         }
     ];
-    const handleSelect = (event: React.MouseEvent<unknown>, name: string) => {
-        const selectedIndex = selected.indexOf(name);
+    const handleSelect = (event: React.MouseEvent<unknown>, url: string) => {
+        const selectedIndex = selected.indexOf(url);
         let newSelected: string[] = [];
     
         if (selectedIndex === -1) {
-          newSelected = newSelected.concat(selected, name);
+          newSelected = newSelected.concat(selected, url);
         } else if (selectedIndex === 0) {
           newSelected = newSelected.concat(selected.slice(1));
         } else if (selectedIndex === selected.length - 1) {
@@ -86,7 +86,7 @@ export default function FavoriteTable({items, selected, setSelected}:Props) {
 
       const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
-          const newSelected = items.map((n) => n.item_name);
+          const newSelected = items.map((n) => n.item_url);
           setSelected(newSelected);
           return;
         }
@@ -112,7 +112,8 @@ export default function FavoriteTable({items, selected, setSelected}:Props) {
                                     position: index === 0 ? "sticky" : undefined,
                                     left: index === 0 ? 0 : undefined,
                                     zIndex: index === 0 ? 99 : 0,
-                                    top: '-1px'
+                                    top: '-1px',
+                                    padding: '8px'
                                 }}
                             >
                             {index === 0 ? <Checkbox
@@ -130,13 +131,13 @@ export default function FavoriteTable({items, selected, setSelected}:Props) {
                     </TableHead>
                     <TableBody>
                         {items.map((row, index) => {
-                            const isItemSelected = isSelected(row.item_name);
+                            const isItemSelected = isSelected(row.item_url);
                             const labelId = `enhanced-table-checkbox-${index}`;
 
                             return (
                                 <TableRow
                                     hover
-                                    onClick={(event) => handleSelect(event, row.item_name)}
+                                    onClick={(event) => handleSelect(event, row.item_url)}
                                     role="checkbox"
                                     aria-checked={isItemSelected}
                                     tabIndex={-1}
@@ -153,7 +154,7 @@ export default function FavoriteTable({items, selected, setSelected}:Props) {
                                             }}
                                         />
                                     </TableCell>
-                                    <TableCell align="left"><img src={row.img_url} alt={row.item_name} width="50" /></TableCell>
+                                    <TableCell align="left" sx={{ padding: '0.5rem' }}><img src={row.img_url} alt={row.item_name} width="50" /></TableCell>
                                     <TableCell
                                         component="th"
                                         id={labelId}
@@ -162,7 +163,7 @@ export default function FavoriteTable({items, selected, setSelected}:Props) {
                                     >
                                         {row.item_name}
                                     </TableCell>
-                                    <TableCell align="center">{row.price_cny}</TableCell>
+                                    <TableCell align="center" padding="none">{row.price_cny}</TableCell>
                                 </TableRow>
                             );
                         })}
