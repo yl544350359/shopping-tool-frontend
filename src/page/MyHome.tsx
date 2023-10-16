@@ -13,6 +13,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FavoriteTable from '../component/favoriteTable';
 import EnhancedTableToolbar from '../component/tableToolbar';
 import { ItemDetail } from './Calculator';
+import { motion } from "framer-motion";
+import { blue, cyan} from '@mui/material/colors';
 
 const staticData: ItemDetail[] = [{
   "item_url": "https://jp.mercari.com/item/m61443717755",
@@ -51,6 +53,8 @@ export default function MyHome() {
   const [selected, setSelected] = React.useState<string[]>([]);
   const [items, setItems] = React.useState<ItemDetail[]>(staticData);
   const [fexpend, setFexpend] = React.useState(false);
+  const [showAlert, setShowAlert]=React.useState(false);
+
   const toggleAcordion = () => {
     setFexpend((prev) => !prev);
   }
@@ -111,12 +115,29 @@ export default function MyHome() {
                 sx={{ cursor: 'unset !important' }}
               >
                 <Typography sx={{ display: "flex", minWidth: '60px', alignItems: "center" }}>{t("my_home.favorite")}</Typography>
-                <EnhancedTableToolbar items={items} setItems={setItems} selected={selected} setSelected={setSelected}/>
+                <EnhancedTableToolbar items={items} setItems={setItems} selected={selected} setSelected={setSelected} setShowAlert={setShowAlert}/>
               </AccordionSummary>
               <AccordionDetails sx={{ padding: 0 }}>
                 <FavoriteTable items={items} selected={selected} setSelected={setSelected} />
               </AccordionDetails>
             </Accordion>
+            {showAlert && <motion.div
+                animate={{ opacity: [0, 0.7, 0.7, 0] }}
+                transition={{ duration: 2 }}
+                style={{display: 'flex',
+                        width: '160px',
+                        height: '48px',
+                        background: blue[50],
+                        borderRadius: '20px',
+                        color: cyan[900],
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        position: 'absolute',
+                        top: "calc(50% - 24px)",
+                        left: "calc(50% - 80px)"
+                    }}
+            >Copy succeed
+            </motion.div>}
           </Box>
         </CardContent>
       </Card>

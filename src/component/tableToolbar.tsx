@@ -15,17 +15,22 @@ interface EnhancedTableToolbarProps {
     setItems: (arg0: ItemDetail[]) => void;
     selected: string[];
     setSelected: (arg0: string[]) => void;
+    setShowAlert: (arg0:boolean) => void;
   }
   
 export default function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     const { t } = useTranslation();
-    const { items, setItems, selected, setSelected } = props;
+    const { items, setItems, selected, setSelected, setShowAlert } = props;
     const handleCopyToCliboard = (event: React.MouseEvent<unknown>) => {
       const selectedItems: ItemDetail[]= items.filter((obj)=>selected.includes(obj.item_url));
       const filterProps: string[] = selectedItems.map(obj=>`url: ${obj.item_url}, price: ${obj.price_cny}`);
       const resultString: string = filterProps.join('\n');
       copy(resultString);
       // alert("Copy succeed");
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 2100)
     };
   
     const handleDelete = (event: React.MouseEvent<unknown>) => {
