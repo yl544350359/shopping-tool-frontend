@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import { ItemDetail } from '../page/Calculator';
 import { useTranslation } from "react-i18next";
+import cookie from 'react-cookies';
 
 interface EnhancedTableToolbarProps {
     items: ItemDetail[];
@@ -30,12 +31,14 @@ export default function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
       setShowAlert(true);
       setTimeout(() => {
         setShowAlert(false);
-      }, 2100)
+      }, 1500)
     };
   
     const handleDelete = (event: React.MouseEvent<unknown>) => {
       const safeItems: ItemDetail[]=items.filter((obj)=> !selected.includes(obj.item_url));
       setSelected([]);
+      const expireDate=new Date(Date.now()+365*24*60*60*1000);
+      cookie.save("favorite",JSON.stringify(safeItems),{path:"/",expires: expireDate});
       setItems(safeItems);
     }
     return (

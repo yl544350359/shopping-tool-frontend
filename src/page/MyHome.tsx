@@ -13,8 +13,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FavoriteTable from '../component/favoriteTable';
 import EnhancedTableToolbar from '../component/tableToolbar';
 import { ItemDetail } from './Calculator';
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { blue, cyan} from '@mui/material/colors';
+import cookie from 'react-cookies';
 
 const staticData: ItemDetail[] = [{
   "item_url": "https://jp.mercari.com/item/m61443717755",
@@ -51,13 +52,22 @@ const staticData: ItemDetail[] = [{
 export default function MyHome() {
   const { t } = useTranslation();
   const [selected, setSelected] = React.useState<string[]>([]);
-  const [items, setItems] = React.useState<ItemDetail[]>(staticData);
+  const [items, setItems] = React.useState<ItemDetail[]>([]);
   const [fexpend, setFexpend] = React.useState(false);
   const [showAlert, setShowAlert]=React.useState(false);
 
   const toggleAcordion = () => {
     setFexpend((prev) => !prev);
   }
+
+  React.useEffect(()=> {
+    var tmpData:ItemDetail[];
+    tmpData=cookie.load("favorite",false);
+    console.log(tmpData);
+    if(tmpData){
+        setItems(tmpData);
+    }
+  },[])
 
   return (
     <Box sx={{
@@ -121,23 +131,26 @@ export default function MyHome() {
                 <FavoriteTable items={items} selected={selected} setSelected={setSelected} />
               </AccordionDetails>
             </Accordion>
-            {showAlert && <motion.div
-                animate={{ opacity: [0, 0.7, 0.7, 0] }}
-                transition={{ duration: 2 }}
-                style={{display: 'flex',
-                        width: '160px',
-                        height: '48px',
-                        background: blue[50],
-                        borderRadius: '20px',
-                        color: cyan[900],
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        position: 'absolute',
-                        top: "calc(50% - 24px)",
-                        left: "calc(50% - 80px)"
-                    }}
-            >Copy succeed
-            </motion.div>}
+            <AnimatePresence>
+                {showAlert && <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    style={{display: 'flex',
+                            width: '160px',
+                            height: '48px',
+                            background: blue[50],
+                            borderRadius: '20px',
+                            color: cyan[900],
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            position: 'absolute',
+                            top: "calc(50% - 24px)",
+                            left: "calc(50% - 80px)"
+                        }}
+                >Copy succeed
+                </motion.div>}
+            </AnimatePresence>
           </Box>
         </CardContent>
       </Card>
