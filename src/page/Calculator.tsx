@@ -19,7 +19,6 @@ import { useTranslation } from "react-i18next";
 import Fab from '@mui/material/Fab';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
-import cookie from 'react-cookies';
 
 export interface ItemDetail {
     [k:string]:any;
@@ -33,78 +32,68 @@ export interface ItemDetail {
     discription: string
 }
 
-function isInCookie(cookieList:ItemDetail[]|undefined|null, keyName:string, targetKey:any): boolean {
+function isInLocalStorage(savedList:ItemDetail[]|undefined|null, keyName:string, targetValue:any): boolean {
     var flag:boolean =false;
-    if(cookieList){  
-        for (const item of cookieList){
-            if(item[keyName]===targetKey){
+    if(savedList){  
+        for (const item of savedList){
+            if(item[keyName]===targetValue){
                 flag=true;
                 break;
             }
         }
     }
     return flag;
-
 }
 export default function Calculator() {
     const [item, setItem] = React.useState<ItemDetail | null>(null);
     const [errmsg, setErrmsg] = React.useState<string>("");
     const [loading, setLoading] = React.useState<boolean>(false);
     const [favorite, setFavorite] = React.useState<boolean>(false);
-    const [curCookie, setCurCookie]=React.useState<ItemDetail[]>([]);
+    const [curSave, setCurSave]=React.useState<ItemDetail[]>([]);
     const { t } = useTranslation();
 
     React.useEffect(()=>{
         var tmpData:ItemDetail[];
-        tmpData=cookie.load("favorite",false);
-        if(tmpData){
-            setCurCookie(tmpData);
-            setFavorite(isInCookie(curCookie,'item_url',item?.item_url))
+        const temString=localStorage.getItem("favorite")
+        if(temString){
+            tmpData=JSON.parse(temString)
+            setCurSave(tmpData);
+            setFavorite(isInLocalStorage(curSave, 'item_url', item?.item_url));
         }
-        // setCurCookie(cookie.load("favorite",false));
-        // setFavorite(isInCookie(curCookie,'item_url',item?.item_url))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[item]);
     
-    const addFavorite = (oldCookie:ItemDetail[]) => {
-        // var oldCookie: ItemDetail[]|undefined=cookie.load("favorite",false);
-        var newCookie:ItemDetail[]=[];
-        const expireDate=new Date(Date.now()+365*24*60*60*1000);
-        if (!oldCookie){
-            console.log("No cookie found.");
-            newCookie=[item!];
+    const addFavorite = (oldSaveList:ItemDetail[]) => {
+        var newSaveList:ItemDetail[]=[];
+        if (!oldSaveList){
+            console.log("No local storage found.");
+            newSaveList=[item!];
         }
-        else if (!isInCookie(oldCookie,"item_url",item?.item_url)){
-            console.log("Item not in cookie.");
-            newCookie=[...oldCookie!];
-            newCookie.push(item!);
+        else if (!isInLocalStorage(oldSaveList,"item_url",item?.item_url)){
+            console.log("Item not in local storage.");
+            newSaveList=[...oldSaveList!];
+            newSaveList.push(item!);
         }
         else {
             console.log("Item already exists");
-            newCookie=[...oldCookie!];
+            newSaveList=[...oldSaveList!];
         }
-        console.log(newCookie);
-        cookie.save("favorite",JSON.stringify(newCookie),{path:"/",expires: expireDate});
-        var tmpData:ItemDetail[];
-        tmpData=cookie.load("favorite",false);
-        console.log(tmpData);
+        console.log(newSaveList);
+        localStorage.setItem("favorite", JSON.stringify(newSaveList))
         setFavorite(true);
     }
 
-    const removeFavorite = (oldCookie:ItemDetail[]) => {
-        // var newCookie:ItemDetail[]=[];
-        const expireDate=new Date(Date.now()+365*24*60*60*1000);
-        const index = oldCookie?.findIndex(element => element.item_url===item?.item_url);
+    const removeFavorite = (oldSaveList:ItemDetail[]) => {
+        const index = oldSaveList?.findIndex(element => element.item_url===item?.item_url);
         if (index!== -1) {
             console.log("Find item in cookie.")
-            oldCookie.splice(index,1);
+            oldSaveList.splice(index,1);
         }
         else {
             console.log("Fail to find item in cookie.")
-            // newCookie=oldCookie;
         }
-        console.log(oldCookie);
-        cookie.save("favorite",JSON.stringify(oldCookie),{path:"/",expires: expireDate});
+        console.log(oldSaveList);
+        localStorage.setItem("favorite",JSON.stringify(oldSaveList));
         setFavorite(false);
     }
 
@@ -154,7 +143,7 @@ export default function Calculator() {
                         size="medium"
                         color="secondary"
                         aria-label="remove"
-                        onClick={()=>removeFavorite(curCookie)}
+                        onClick={()=>removeFavorite(curSave)}
                         sx={{
                             zIndex: (theme) => theme.zIndex.drawer + 1,
                             position: "fixed",
@@ -168,7 +157,7 @@ export default function Calculator() {
                         size="medium"
                         color="secondary"
                         aria-label="add"
-                        onClick={()=>addFavorite(curCookie)}
+                        onClick={()=>addFavorite(curSave)}
                         sx={{
                             zIndex: (theme) => theme.zIndex.drawer + 1,
                             position: "fixed",

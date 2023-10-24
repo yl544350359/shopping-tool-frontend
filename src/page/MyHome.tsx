@@ -15,39 +15,6 @@ import EnhancedTableToolbar from '../component/tableToolbar';
 import { ItemDetail } from './Calculator';
 import { motion, AnimatePresence } from "framer-motion";
 import { blue, cyan} from '@mui/material/colors';
-import cookie from 'react-cookies';
-
-const staticData: ItemDetail[] = [{
-  "item_url": "https://jp.mercari.com/item/m61443717755",
-  "price_jpy": 750,
-  "price_cny": 49,
-  "item_name": "新品未使用品 GU ニット トップス レディース ブルー系",
-  "img_url": "https://static.mercdn.net/item/detail/orig/photos/m61443717755_1.jpg?1695801275",
-  "shipping_fee_tag": true,
-  "sold_out_flag": false,
-  "discription": "数年前にGUで購入しました。\nタグ付いてませんが一度も着てません。\n\n家保管ですが綺麗でいい状態です！\nLサイズ。\n\n何かあれば、ご相談ください！"
-},
-{
-  "item_url": "https://jp.mercari.com/item/m61443717756",
-  "price_jpy": 750,
-  "price_cny": 49,
-  "item_name": "test title 2",
-  "img_url": "https://static.mercdn.net/item/detail/orig/photos/m61443717755_1.jpg?1695801275",
-  "shipping_fee_tag": true,
-  "sold_out_flag": false,
-  "discription": "数年前にGUで購入しました。\nタグ付いてませんが一度も着てません。\n\n家保管ですが綺麗でいい状態です！\nLサイズ。\n\n何かあれば、ご相談ください！"
-},
-{
-  "item_url": "https://jp.mercari.com/item/m61443717757",
-  "price_jpy": 750,
-  "price_cny": 49,
-  "item_name": "test title 4",
-  "img_url": "https://static.mercdn.net/item/detail/orig/photos/m61443717755_1.jpg?1695801275",
-  "shipping_fee_tag": true,
-  "sold_out_flag": false,
-  "discription": "数年前にGUで購入しました。\nタグ付いてませんが一度も着てません。\n\n家保管ですが綺麗でいい状態です！\nLサイズ。\n\n何かあれば、ご相談ください！"
-}
-]
 
 export default function MyHome() {
   const { t } = useTranslation();
@@ -62,10 +29,11 @@ export default function MyHome() {
 
   React.useEffect(()=> {
     var tmpData:ItemDetail[];
-    tmpData=cookie.load("favorite",false);
-    console.log(tmpData);
-    if(tmpData){
-        setItems(tmpData);
+    const tmpString=localStorage.getItem("favorite");
+    if(tmpString){
+      tmpData=JSON.parse(tmpString);
+      console.log(tmpData);
+      setItems(tmpData);
     }
   },[])
 
