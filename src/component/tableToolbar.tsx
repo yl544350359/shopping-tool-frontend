@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import { ItemDetail } from '../page/Calculator';
 import { useTranslation } from "react-i18next";
-import cookie from 'react-cookies';
 
 interface EnhancedTableToolbarProps {
     items: ItemDetail[];
@@ -27,7 +26,6 @@ export default function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
       const filterProps: string[] = selectedItems.map(obj=>`url: ${obj.item_url}, price: ${obj.price_cny}`);
       const resultString: string = filterProps.join('\n');
       copy(resultString);
-      // alert("Copy succeed");
       setShowAlert(true);
       setTimeout(() => {
         setShowAlert(false);
@@ -37,8 +35,7 @@ export default function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     const handleDelete = (event: React.MouseEvent<unknown>) => {
       const safeItems: ItemDetail[]=items.filter((obj)=> !selected.includes(obj.item_url));
       setSelected([]);
-      const expireDate=new Date(Date.now()+365*24*60*60*1000);
-      cookie.save("favorite",JSON.stringify(safeItems),{path:"/",expires: expireDate});
+      localStorage.setItem('favorite',JSON.stringify(safeItems));
       setItems(safeItems);
     }
     return (

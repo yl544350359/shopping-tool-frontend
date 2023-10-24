@@ -96,7 +96,7 @@ export default function FavoriteTable({items, selected, setSelected}:Props) {
                                 align={column.align}
                                 style={{
                                     minWidth: column.minWidth,
-                                    position: index === 0 ? "sticky" : undefined,
+                                    position: undefined,
                                     left: index === 0 ? 0 : undefined,
                                     zIndex: index === 0 ? 99 : 0,
                                     top: '-1px',
