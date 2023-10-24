@@ -12,6 +12,7 @@ import {
     Chip,
     Backdrop
 } from '@mui/material';
+import Grow from '@mui/material/Grow';
 import CheckIcon from '@mui/icons-material/Check';
 import Divider from '@mui/material/Divider';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -21,7 +22,7 @@ import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
 
 export interface ItemDetail {
-    [k:string]:any;
+    [k: string]: any;
     item_url: string;
     price_jpy: number;
     price_cny: number;
@@ -32,12 +33,12 @@ export interface ItemDetail {
     discription: string
 }
 
-function isInLocalStorage(savedList:ItemDetail[]|undefined|null, keyName:string, targetValue:any): boolean {
-    var flag:boolean =false;
-    if(savedList){  
-        for (const item of savedList){
-            if(item[keyName]===targetValue){
-                flag=true;
+function isInLocalStorage(savedList: ItemDetail[] | undefined | null, keyName: string, targetValue: any): boolean {
+    var flag: boolean = false;
+    if (savedList) {
+        for (const item of savedList) {
+            if (item[keyName] === targetValue) {
+                flag = true;
                 break;
             }
         }
@@ -49,51 +50,50 @@ export default function Calculator() {
     const [errmsg, setErrmsg] = React.useState<string>("");
     const [loading, setLoading] = React.useState<boolean>(false);
     const [favorite, setFavorite] = React.useState<boolean>(false);
-    const [curSave, setCurSave]=React.useState<ItemDetail[]>([]);
+    const [curSave, setCurSave] = React.useState<ItemDetail[]>([]);
     const { t } = useTranslation();
 
-    React.useEffect(()=>{
-        var tmpData:ItemDetail[];
-        const temString=localStorage.getItem("favorite")
-        if(temString){
-            tmpData=JSON.parse(temString)
+    React.useEffect(() => {
+        var tmpData: ItemDetail[];
+        const temString = localStorage.getItem("favorite")
+        if (temString) {
+            tmpData = JSON.parse(temString)
             setCurSave(tmpData);
             setFavorite(isInLocalStorage(curSave, 'item_url', item?.item_url));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[item]);
-    
-    const addFavorite = (oldSaveList:ItemDetail[]) => {
-        var newSaveList:ItemDetail[]=[];
-        if (!oldSaveList){
+    }, [item]);
+
+    const addFavorite = (oldSaveList: ItemDetail[]) => {
+        var newSaveList: ItemDetail[] = [];
+        if (!oldSaveList) {
             console.log("No local storage found.");
-            newSaveList=[item!];
+            newSaveList = [item!];
         }
-        else if (!isInLocalStorage(oldSaveList,"item_url",item?.item_url)){
+        else if (!isInLocalStorage(oldSaveList, "item_url", item?.item_url)) {
             console.log("Item not in local storage.");
-            newSaveList=[...oldSaveList!];
+            newSaveList = [...oldSaveList!];
             newSaveList.push(item!);
         }
         else {
             console.log("Item already exists");
-            newSaveList=[...oldSaveList!];
+            newSaveList = [...oldSaveList!];
         }
-        console.log(newSaveList);
         localStorage.setItem("favorite", JSON.stringify(newSaveList))
         setFavorite(true);
     }
 
-    const removeFavorite = (oldSaveList:ItemDetail[]) => {
-        const index = oldSaveList?.findIndex(element => element.item_url===item?.item_url);
-        if (index!== -1) {
-            console.log("Find item in cookie.")
-            oldSaveList.splice(index,1);
+    const removeFavorite = (oldSaveList: ItemDetail[]) => {
+        const index = oldSaveList?.findIndex(element => element.item_url === item?.item_url);
+        if (index !== -1) {
+            console.log("Find item in local storage.")
+            oldSaveList.splice(index, 1);
         }
         else {
-            console.log("Fail to find item in cookie.")
+            console.log("Fail to find item in local storage.")
         }
         console.log(oldSaveList);
-        localStorage.setItem("favorite",JSON.stringify(oldSaveList));
+        localStorage.setItem("favorite", JSON.stringify(oldSaveList));
         setFavorite(false);
     }
 
@@ -103,8 +103,9 @@ export default function Calculator() {
                 display: "flex",
                 flexDirection: "column",
                 width: "100%",
-                height: "100%",
+                // height: "100%",
                 mt: 1,
+                pb: 1,
                 alignItems: "center",
                 gap: 1
             }}>
@@ -139,34 +140,44 @@ export default function Calculator() {
                     <Typography>
                         {item.discription}
                     </Typography>
-                    {favorite ? <Fab
-                        size="medium"
-                        color="secondary"
-                        aria-label="remove"
-                        onClick={()=>removeFavorite(curSave)}
-                        sx={{
-                            zIndex: (theme) => theme.zIndex.drawer + 1,
-                            position: "fixed",
-                            bottom: "40px",
-                            right: `${window.innerWidth < 544 ? 24 : (window.innerWidth - 448)/2-48}px`
-                        }}
+                    <Grow in={favorite}
+                        style={{ transformOrigin: '0 0 0' }}
+                        {...(favorite ? { timeout: 1000 } : {})}>
+                        <Fab
+                            size="medium"
+                            color="primary"
+                            aria-label="remove"
+                            onClick={() => removeFavorite(curSave)}
+                            sx={{
+                                zIndex: (theme) => theme.zIndex.drawer + 1,
+                                position: "fixed",
+                                bottom: "40px",
+                                right: `${window.innerWidth < 544 ? 24 : (window.innerWidth - 448) / 2 - 48}px`
+                            }}
                         >
-                        <BookmarkRemoveIcon />
-                    </Fab>:
-                    <Fab
-                        size="medium"
-                        color="secondary"
-                        aria-label="add"
-                        onClick={()=>addFavorite(curSave)}
-                        sx={{
-                            zIndex: (theme) => theme.zIndex.drawer + 1,
-                            position: "fixed",
-                            bottom: "40px",
-                            right: `${window.innerWidth < 544 ? 24 : (window.innerWidth - 448)/2-48}px`
-                        }}
+                            <BookmarkRemoveIcon />
+                        </Fab>
+                    </Grow>
+                    <Grow
+                        in={!favorite}
+                        style={{ transformOrigin: '0 0 0' }}
+                        {...(favorite ? {} : { timeout: 1000 })}
+                    >
+                        <Fab
+                            size="medium"
+                            color="primary"
+                            aria-label="add"
+                            onClick={() => addFavorite(curSave)}
+                            sx={{
+                                zIndex: (theme) => theme.zIndex.drawer + 1,
+                                position: "fixed",
+                                bottom: "40px",
+                                right: `${window.innerWidth < 544 ? 24 : (window.innerWidth - 448) / 2 - 48}px`
+                            }}
                         >
-                        <BookmarkAddIcon />
-                    </Fab>}
+                            <BookmarkAddIcon />
+                        </Fab>
+                    </Grow>
 
                 </CardContent>
             </Card>}

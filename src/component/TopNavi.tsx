@@ -27,12 +27,6 @@ export default function TopNavigator() {
       navigate(path);
   }
   return (
-    <Box sx={{ 
-      flexGrow: 1,
-      display: "flex",
-      flexDirection: "row",
-      width: "100%"
-    }}>
       <AppBar position="static">
         <Toolbar
           sx = {{
@@ -53,6 +47,5 @@ export default function TopNavigator() {
           <HomeIcon sx={{color: 'white', cursor: 'pointer'}} onClick={() => handleNavigate('/MyHome','common.my_home')}/>
         </Toolbar>
       </AppBar>
-    </Box>
   );
 }
