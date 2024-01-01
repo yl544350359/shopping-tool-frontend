@@ -20,7 +20,7 @@ export default function SearchBar({item, setItem, setErrmsg, setLoading}:Props) 
     const handleSearch=(itemUrl:string) => {
       setErrmsg("");
       setLoading(true);
-      fetch("http://agonize.asuscomm.com:3000/itemDetail", {
+      fetch("http://kmt-myh.ddns.net:8001/itemDetail", {
         method: 'POST',
         body: JSON.stringify({
           item_url: itemUrl
