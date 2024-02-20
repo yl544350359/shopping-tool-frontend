@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import { ItemDetail } from '../page/Calculator';
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom"
 
 type Props={
     items: ItemDetail[],
@@ -25,6 +26,7 @@ interface Column {
 
 export default function FavoriteTable({items, selected, setSelected}:Props) {
     const { t } = useTranslation();
+    const navigate = useNavigate()
     const isSelected = (url: string) => selected.indexOf(url) !== -1;
     const headCells: readonly Column[] = [
         {
@@ -71,7 +73,7 @@ export default function FavoriteTable({items, selected, setSelected}:Props) {
         setSelected(newSelected);
       };
 
-      const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
           const newSelected = items.map((n) => n.item_url);
           setSelected(newSelected);
@@ -79,6 +81,10 @@ export default function FavoriteTable({items, selected, setSelected}:Props) {
         }
         setSelected([]);
       };
+
+    const handleRedirect = (event: React.MouseEvent<unknown>, url: string) => {
+        navigate("/Calculator", { state: { item_url: url } })
+    }
 
     return (
         <Paper sx={{ width: '100%' }}>
@@ -124,7 +130,7 @@ export default function FavoriteTable({items, selected, setSelected}:Props) {
                             return (
                                 <TableRow
                                     hover
-                                    onClick={(event) => handleSelect(event, row.item_url)}
+                                    // onClick={(event) => handleSelect(event, row.item_url)}
                                     role="checkbox"
                                     aria-checked={isItemSelected}
                                     tabIndex={-1}
@@ -132,7 +138,11 @@ export default function FavoriteTable({items, selected, setSelected}:Props) {
                                     selected={isItemSelected}
                                     sx={{ cursor: 'pointer' }}
                                 >
-                                    <TableCell align="center" padding="checkbox">
+                                    <TableCell 
+                                    align="center" 
+                                    padding="checkbox"
+                                    onClick={(event) => handleSelect(event, row.item_url)}
+                                    >
                                         <Checkbox
                                             color="primary"
                                             checked={isItemSelected}
@@ -147,6 +157,7 @@ export default function FavoriteTable({items, selected, setSelected}:Props) {
                                         id={labelId}
                                         scope="row"
                                         padding="none"
+                                        onClick={(event) => handleRedirect(event, row.item_url)}
                                     >
                                         {row.item_name}
                                     </TableCell>
