@@ -42,12 +42,14 @@ export default function MyHome() {
       display: "flex",
       flexDirection: "column",
       width: "100%",
-      height: "100%",
+      // height: "100%",
+      height: {xs: 'calc(100vh - 72px)', sm: 'calc(100vh - 80px)'},
+      overflow: 'auto',
       mt: 1,
       alignItems: "center",
       gap: 1
     }}>
-      <Card variant="outlined" sx={{ maxWidth: 600, width: "100%", height: '100%' }}>
+      <Card variant="outlined" sx={{ maxWidth: 600, width: "100%" }}>
         <CardMedia
           sx={{
             height: '160px'
@@ -85,7 +87,7 @@ export default function MyHome() {
             >
               {t('my_home.username')}
             </Typography>
-            <Accordion expanded={fexpend} sx={{ width: '100%' }}>
+            <Accordion expanded={fexpend} sx={{ width: '100%'}}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon onClick={toggleAcordion}/>}
                 aria-controls="panel1a-content"
@@ -95,7 +97,7 @@ export default function MyHome() {
                 <Typography sx={{ display: "flex", minWidth: '60px', alignItems: "center" }}>{t("my_home.favorite")}</Typography>
                 <EnhancedTableToolbar items={items} setItems={setItems} selected={selected} setSelected={setSelected} setShowAlert={setShowAlert}/>
               </AccordionSummary>
-              <AccordionDetails sx={{ padding: 0 }}>
+              <AccordionDetails sx={{ padding: 0}}>
                 <FavoriteTable items={items} selected={selected} setSelected={setSelected} />
               </AccordionDetails>
             </Accordion>
