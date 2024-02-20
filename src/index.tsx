@@ -39,9 +39,9 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.querySelector("#root")!).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <StyledEngineProvider injectFirst>
       <RouterProvider router={router} />
     </StyledEngineProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
