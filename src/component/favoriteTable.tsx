@@ -88,8 +88,9 @@ export default function FavoriteTable({items, selected, setSelected}:Props) {
 
     return (
         <Paper sx={{ width: '100%' }}>
-            <TableContainer>
+            <TableContainer sx={{maxHeight: {xs: "calc(100vh - 456px)", sm: "calc(100vh - 432px)"}}}>
                 <Table
+                    stickyHeader
                     aria-labelledby="tableTitle"
                     size='medium'
                     sx={{width: '100%'}}
