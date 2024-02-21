@@ -1,7 +1,8 @@
 {
     "common": {
         "calculator": "Price Calculator",
-        "shipping_price": "Shipping Price"
+        "shipping_price": "Shipping Price",
+        "not_found":"Not Found"
     },
     "calculator": {
         "search_label": "Please input url",
