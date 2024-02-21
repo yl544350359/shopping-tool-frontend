@@ -17,7 +17,7 @@ type Props= {
 
 function queryItemDetail(itemUrl:string|null):any {
   if(itemUrl){
-    fetch("http://agonize.asuscomm.com:3000/itemDetail", {
+    fetch("http://kmt-myh.ddns.net:8001/itemDetail", {
         method: 'POST',
         body: JSON.stringify({
           item_url: itemUrl
@@ -35,17 +35,6 @@ function queryItemDetail(itemUrl:string|null):any {
   else {
     return null
   }
-  
-      // .then((data) => {
-      //   console.log(data);
-      //   setLoading(false);
-      //   setItem(data);
-      // })
-      // .catch((err) =>{
-      //   console.log(err);
-      //   setLoading(false);
-      //   setErrmsg(err.message);
-      // })
 }
 
 export default function SearchBar({item, setItem, setErrmsg, setLoading}:Props) {
@@ -65,8 +54,7 @@ export default function SearchBar({item, setItem, setErrmsg, setLoading}:Props) 
     const handleSearch=(itemUrl:string) => {
       setErrmsg("");
       setLoading(true);
-      console.log("I'm here")
-      fetch("http://agonize.asuscomm.com:3000/itemDetail", {
+      fetch("http://kmt-myh.ddns.net:8001/itemDetail", {
         method: 'POST',
         body: JSON.stringify({
           item_url: itemUrl
@@ -91,6 +79,14 @@ export default function SearchBar({item, setItem, setErrmsg, setLoading}:Props) 
         setErrmsg(err.message);
       })
     }
+
+    const _handleKeyDown = (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        handleSearch(url)
+        e.preventDefault();
+      }
+    }
+
     return (
         <Paper
         component="form"
@@ -102,6 +98,7 @@ export default function SearchBar({item, setItem, setErrmsg, setLoading}:Props) 
         inputProps={{ 'aria-label': t('calculator.search_label')! }}
         value={url}
         onChange={(event)=> setUrl(event.target.value)}
+        onKeyDown={_handleKeyDown}
       />
       {url && <IconButton type="button" sx={{ p: '10px' }} aria-label="delete" onClick={() => setUrl("")}>
         <HighlightOffTwoToneIcon />
