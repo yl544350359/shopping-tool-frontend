@@ -2,6 +2,7 @@
     "common": {
         "calculator": "Price Calculator",
         "shipping_price": "Shipping Price",
+        "my_home": "My Home",
         "not_found":"Not Found"
     },
     "calculator": {
@@ -19,6 +20,15 @@
         "air":"Air",
         "epacket":"E-packet",
         "boat":"Surface"
+    },
+    "my_home": {
+        "username": "Unknown User",
+        "favorite": "My Favorite",
+        "picture": "Picture",
+        "title": "Title",
+        "price": "Price",
+        "select": "Select",
+        "selected": "Selected"
     },
     "not_found": {}
 }

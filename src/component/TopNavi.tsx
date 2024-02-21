@@ -5,38 +5,46 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import PageMenu from './Menu'
 import { useTranslation } from "react-i18next";
-import { useLocation } from 'react-router-dom';
+import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
+import { useNavigate } from 'react-router-dom';
+
+function HomeIcon(props: SvgIconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+    </SvgIcon>
+  );
+}
 
 export default function TopNavigator() {
   const { t } = useTranslation();
-  const location=useLocation();
-  var tmp:string;
-  if(location.pathname==="/"){
-    tmp=t("common.calculator");
-  }
-  else if(location.pathname==="/Calculator"){
-    tmp=t("common.calculator");
-  }
-  else if(location.pathname==="/ShippingPrice"){
-    tmp=t("common.shipping_price");
-  }
-  else {
-    tmp=t("common.not_found");
-  }
+  const [title, setTitle] = React.useState(t("common.calculator")!);
+  const navigate = useNavigate();
 
-
-  const [title,setTitle] = React.useState(tmp);
- 
+  const handleNavigate = (path:string,key:string) => {
+      setTitle(t(key)!);
+      navigate(path);
+  }
   return (
-    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar>
-          <PageMenu title={title} setTitle={setTitle}/>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {title}
-          </Typography>
+        <Toolbar
+          sx = {{
+            justifyContent: "space-between"
+          }}
+        >
+          <Box sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center"
+          }}>
+            <PageMenu title={title} setTitle={setTitle}/>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              {title}
+            </Typography>
+          </Box>
+          <HomeIcon sx={{color: 'white', cursor: 'pointer'}} onClick={() => handleNavigate('/MyHome','common.my_home')}/>
         </Toolbar>
       </AppBar>
-    </Box>
   );
 }

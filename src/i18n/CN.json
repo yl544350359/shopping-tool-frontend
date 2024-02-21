@@ -1,7 +1,8 @@
 {
     "common": {
         "calculator": "价格计算器",
-        "shipping_price": "国际邮费表",
+        "shipping_price": "邮费表",
+        "my_home": "我的主页",
         "not_found":"Not Found"
     },
     "calculator": {"search_label":"请输入煤炉网址",
@@ -17,6 +18,15 @@
         "air":"航空便(7天)",
         "epacket":"E邮宝(7天)",
         "boat":"船运(2个月)"
+    },
+    "my_home": {
+        "username": "神秘用户",
+        "favorite": "收藏夹",
+        "picture": "图片",
+        "title": "商品标题",
+        "price": "价格 ¥",
+        "select": "选择",
+        "selected": "已选择"
     },
     "not_found": {}
 }
