@@ -89,7 +89,7 @@ export default function ShippingPrice() {
     React.useEffect(() => {
         setErrmsg("");
         setLoading(true);
-        fetch("http://agonize.asuscomm.com:3000/getRate", {
+        fetch("http://kmt-myh.ddns.net:8001/getRate", {
             method: 'GET'
         }).then((response) => {
             if (!response.ok) {

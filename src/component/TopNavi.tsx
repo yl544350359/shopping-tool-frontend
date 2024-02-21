@@ -3,7 +3,6 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-// import MenuIcon from '@mui/icons-material/Menu';
 import PageMenu from './Menu'
 import { useTranslation } from "react-i18next";
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';

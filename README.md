@@ -1,6 +1,6 @@
 # 日本购物工具箱(Shopping Tool)
-本仓库包含了网站[购物工具箱](http://agonize.asuscomm.com:8000)的前端代码.
-This Repo includes codes of the frontend of [Shopping-tool](http://agonize.asuscomm.com:8000).
+本仓库包含了网站[购物工具箱](http://kmt-myh.ddns.net:3001)的前端代码.
+This Repo includes codes of the frontend of [Shopping-tool](http://kmt-myh.ddns.net:3001).
 ## v1.1.0 功能概要 Brief Introduction
 1. 价格计算器目前仅支持Mercari网站,后续将持续增加其他网站. <br>Price Calculator only supports Mercari currently. We will continue to add other websites in the future.
 2. 新增页面国际邮费表,用户可以快速查看、比较邮费.<br> Added Shipping Price page. Users can view and compare shipping fee quickly.

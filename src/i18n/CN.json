@@ -2,7 +2,8 @@
     "common": {
         "calculator": "价格计算器",
         "shipping_price": "邮费表",
-        "my_home": "我的主页"
+        "my_home": "我的主页",
+        "not_found":"Not Found"
     },
     "calculator": {"search_label":"请输入煤炉网址",
                     "buyable_label":"可购买",

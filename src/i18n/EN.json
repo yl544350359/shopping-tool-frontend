@@ -2,7 +2,8 @@
     "common": {
         "calculator": "Price Calculator",
         "shipping_price": "Shipping Price",
-        "my_home": "My Home"
+        "my_home": "My Home",
+        "not_found":"Not Found"
     },
     "calculator": {
         "search_label": "Please input url",
