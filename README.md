@@ -1,12 +1,14 @@
 # 日本购物工具箱(Shopping Tool)
 本仓库包含了网站[购物工具箱](http://kmt-myh.ddns.net:3001)的前端代码.
 This Repo includes codes of the frontend of [Shopping-tool](http://kmt-myh.ddns.net:3001).
-## v1.1.0 功能概要 Brief Introduction
+## v1.2.0 功能概要 Brief Introduction
 1. 价格计算器目前仅支持Mercari网站,后续将持续增加其他网站. <br>Price Calculator only supports Mercari currently. We will continue to add other websites in the future.
 2. 新增页面国际邮费表,用户可以快速查看、比较邮费.<br> Added Shipping Price page. Users can view and compare shipping fee quickly.
 3. 使用徽章来显示当前商品的售出状态及是否包邮,用户可以一目了然物品状态. <br>In Price Calculator, we use badge to represent the status of item and if the price includes shipping fee. 
 4. 新增导航栏,可以自由切换价格计算器和国际邮费表. <br>We added navigator bar, which can navigate users to Price Calcualtor page and Shipping Fee page.
-
+5. 计算器页面新增收藏功能，用户可以收藏，取消收藏商品。<br>We added bookmark/remove item feature.
+6. 新增我的主页，用户可以查看，管理自己收藏的商品。<br>We added My Home page. Users can browser/manage items that they bookmark.
+7. 我的主页具有快捷复制功能，勾选商品后点击复制图标，即可快速复制出商品链接及价格。<br>My Home page supports quick copy. Selecting all items that you want, You can copy url and price of them by clicking copy icon.
 
 
 ***
